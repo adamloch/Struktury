@@ -1,0 +1,101 @@
+
+//////////Na razie tylko push,pop i insert bo reszty nie zdążyłem jeszcze
+
+#include <iostream>
+class element
+{
+    public:
+        int numer;
+        element *nastepny;
+        element(){nastepny=0;};        
+    };
+class lista
+{
+public:
+    element *pierwsza;
+    lista(){pierwsza=0;};
+    void push(int num);
+    void pop();
+    void display();
+    void insert(int nowy_num,int adres);
+};
+int main()
+{
+    lista *baza=new lista;
+    baza->push(6);
+    baza->push(0);
+    baza->push(214);
+    baza->push(3);
+    baza->push(61);
+    baza->display();
+    baza->pop();
+    baza->display();
+    baza->pop();
+    baza->display();
+    baza->insert(234,2);          //adres podawany do inserta od komórki zerowej
+    baza->display();
+    return 0;
+}
+void lista::push(int num)
+        {
+        element *nowy=new element;
+        nowy->numer=num;
+        if(pierwsza==0)
+            pierwsza=nowy;
+        else
+            {
+            element *ptr=pierwsza;
+            while(ptr->nastepny!=0)
+                {
+                ptr=ptr->nastepny;
+                }
+            ptr->nastepny=nowy;
+            }
+        }
+
+void lista::display()
+ {
+        element *ptr=pierwsza;
+        while(ptr->nastepny!=0)
+            {
+            std::cout<<ptr->numer<<";";
+            std::cout<<ptr->nastepny<<"    ";
+            ptr=ptr->nastepny;
+            }
+        std::cout<<ptr->numer<<";";
+        std::cout<<ptr->nastepny<<" \n";
+        }
+
+void lista::pop()
+{   
+    int licznik=0;
+    element *ptr=pierwsza;
+    while(ptr->nastepny!=0)
+        {
+        licznik++;
+        ptr=ptr->nastepny;
+        }
+    ptr=pierwsza;
+    for(int i=0;i<licznik;i++)
+        {
+        if(i==licznik-1)
+            {
+            element *ptr_zapas=ptr->nastepny;
+            ptr->nastepny=0;
+            ptr=ptr_zapas;
+            }
+        else
+        ptr=ptr->nastepny;
+        }
+    delete ptr;
+}
+
+void lista::insert(int nowy_num,int adres)
+    {
+    element *ptr=pierwsza;
+     for(int i=0;i<adres;i++)
+        {
+        ptr=ptr->nastepny;
+        }
+    ptr->numer=nowy_num;
+    }
